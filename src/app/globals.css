@@ -55,4 +55,20 @@
   .stat-card {
     @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex items-center gap-4;
   }
+
+  /* Clients marquee — infinite slow scroll right-to-left */
+  .clients-marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 35s linear infinite;
+  }
+
+  .clients-marquee:hover {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
