@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #2563eb;
+    --color-primary-dark: #1d4ed8;
+    --color-sidebar: #1a1a2e;
+    --color-sidebar-hover: #16213e;
+    --color-sidebar-text: #a0aec0;
+    --color-sidebar-text-active: #ffffff;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply text-gray-900 bg-white;
+  }
+}
+
+@layer components {
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200;
+    color: var(--color-sidebar-text);
+  }
+
+  .sidebar-link:hover {
+    background-color: var(--color-sidebar-hover);
+    color: var(--color-sidebar-text-active);
+  }
+
+  .sidebar-link.active {
+    background-color: var(--color-primary);
+    color: var(--color-sidebar-text-active);
+  }
+
+  .admin-card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6;
+  }
+
+  .stat-card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex items-center gap-4;
+  }
+}
