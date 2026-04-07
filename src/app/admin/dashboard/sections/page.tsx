@@ -13,6 +13,7 @@ export default function SectionsManagerPage() {
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingSection, setEditingSection] = useState<Section | null>(null);
+  const [selectedPageId, setSelectedPageId] = useState<number | undefined>(undefined);
   const [deleting, setDeleting] = useState<number | null>(null);
   const [filterPageId, setFilterPageId] = useState<string>('');
 
@@ -29,11 +30,17 @@ export default function SectionsManagerPage() {
         pagesRes.json(),
       ]);
       if (sectionsData.success) setSections(sectionsData.data || []);
-      if (pagesData.success) setPages(pagesData.data || []);
+      if (pagesData.success) {
+        const pageList: Page[] = pagesData.data || [];
+        setPages(pageList);
+        if (!selectedPageId && pageList.length > 0) {
+          setSelectedPageId(pageList[0].id);
+        }
+      }
     } finally {
       setLoading(false);
     }
-  }, [filterPageId]);
+  }, [filterPageId, selectedPageId]);
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
@@ -44,16 +51,18 @@ export default function SectionsManagerPage() {
 
   const openEdit = (section: Section) => {
     setEditingSection(section);
+    setSelectedPageId(section.page_id);
     setModalOpen(true);
   };
 
   const handleSave = async (data: Partial<Section>) => {
+    const payload = { ...data, page_id: editingSection ? editingSection.page_id : selectedPageId };
     const url = editingSection ? `/api/sections/${editingSection.id}` : '/api/sections';
     const method = editingSection ? 'PUT' : 'POST';
     const res = await fetch(url, {
       method,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: JSON.stringify(payload),
     });
     const result = await res.json();
     if (result.success) {
@@ -158,24 +167,33 @@ export default function SectionsManagerPage() {
         title={editingSection ? 'Edit Section' : 'New Section'}
         size="lg"
       >
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Page <span className="text-red-500">*</span></label>
-          <select
-            value={editingSection?.page_id || ''}
-            onChange={() => {}}
-            disabled={!!editingSection}
-            className="block w-full px-3 py-2 border border-gray-300 bg-white rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            id="section-page-select"
-          >
-            <option value="">Select a page</option>
-            {pages.map((p) => (
-              <option key={p.id} value={p.id}>{p.title}</option>
-            ))}
-          </select>
-        </div>
+        {!editingSection && (
+          <div className="mb-4">
+            <label htmlFor="section-page-select" className="block text-sm font-medium text-gray-700 mb-1">
+              Page <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="section-page-select"
+              value={selectedPageId || ''}
+              onChange={(e) => setSelectedPageId(parseInt(e.target.value) || undefined)}
+              className="block w-full px-3 py-2 border border-gray-300 bg-white rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Select a page</option>
+              {pages.map((p) => (
+                <option key={p.id} value={p.id}>{p.title}</option>
+              ))}
+            </select>
+          </div>
+        )}
+        {editingSection && (
+          <div className="mb-4 p-3 bg-gray-50 rounded-lg text-sm text-gray-600">
+            <span className="font-medium">Page:</span>{' '}
+            {pages.find((p) => p.id === editingSection.page_id)?.title || `ID ${editingSection.page_id}`}
+          </div>
+        )}
         <SectionEditor
           section={editingSection || {}}
-          pageId={editingSection?.page_id || pages[0]?.id}
+          pageId={editingSection?.page_id || selectedPageId}
           onSave={handleSave}
           onCancel={() => setModalOpen(false)}
         />
@@ -183,3 +201,4 @@ export default function SectionsManagerPage() {
     </div>
   );
 }
+
