@@ -4,19 +4,18 @@ import { getAuthFromRequest } from '@/lib/auth';
 import { successResponse, errorResponse } from '@/lib/utils';
 import { Section, SectionWithPage } from '@/types';
 
-interface Params {
-  params: { id: string };
-}
+type RouteParams = { params: Promise<{ id: string }> };
 
-export async function GET(request: NextRequest, { params }: Params) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const auth = getAuthFromRequest(request);
     if (!auth) return errorResponse('Unauthorized', 401);
 
+    const { id } = await params;
     const [section] = await query<SectionWithPage>(
       `SELECT s.*, p.title as page_title, p.slug as page_slug
        FROM sections s JOIN pages p ON s.page_id = p.id WHERE s.id = ?`,
-      [params.id]
+      [id]
     );
 
     if (!section) return errorResponse('Section not found', 404);
@@ -27,12 +26,13 @@ export async function GET(request: NextRequest, { params }: Params) {
   }
 }
 
-export async function PUT(request: NextRequest, { params }: Params) {
+export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const auth = getAuthFromRequest(request);
     if (!auth) return errorResponse('Unauthorized', 401);
 
-    const section = await getOne<Section>('SELECT * FROM sections WHERE id = ?', [params.id]);
+    const { id } = await params;
+    const section = await getOne<Section>('SELECT * FROM sections WHERE id = ?', [id]);
     if (!section) return errorResponse('Section not found', 404);
 
     const body = await request.json();
@@ -47,13 +47,13 @@ export async function PUT(request: NextRequest, { params }: Params) {
 
     await execute(
       `UPDATE sections SET title = ?, subtitle = ?, content = ?, section_type = ?, is_visible = ?, sort_order = ? WHERE id = ?`,
-      [title, subtitle, content, section_type, is_visible, sort_order, params.id]
+      [title, subtitle, content, section_type, is_visible, sort_order, id]
     );
 
     const [updated] = await query<SectionWithPage>(
       `SELECT s.*, p.title as page_title, p.slug as page_slug
        FROM sections s JOIN pages p ON s.page_id = p.id WHERE s.id = ?`,
-      [params.id]
+      [id]
     );
     return successResponse(updated, 'Section updated');
   } catch (error) {
@@ -62,15 +62,16 @@ export async function PUT(request: NextRequest, { params }: Params) {
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: Params) {
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     const auth = getAuthFromRequest(request);
     if (!auth) return errorResponse('Unauthorized', 401);
 
-    const section = await getOne<Section>('SELECT * FROM sections WHERE id = ?', [params.id]);
+    const { id } = await params;
+    const section = await getOne<Section>('SELECT * FROM sections WHERE id = ?', [id]);
     if (!section) return errorResponse('Section not found', 404);
 
-    await execute('DELETE FROM sections WHERE id = ?', [params.id]);
+    await execute('DELETE FROM sections WHERE id = ?', [id]);
     return successResponse(null, 'Section deleted');
   } catch (error) {
     console.error('[DELETE /api/sections/[id]]', error);

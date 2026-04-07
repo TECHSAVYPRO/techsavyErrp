@@ -35,9 +35,10 @@ export async function comparePassword(
   return bcrypt.compare(password, hash);
 }
 
-// Set auth cookie (for use in API routes)
-export function setAuthCookie(token: string): void {
-  cookies().set(COOKIE_NAME, token, {
+// Set auth cookie — Next.js 15: cookies() is async
+export async function setAuthCookie(token: string): Promise<void> {
+  const cookieStore = await cookies();
+  cookieStore.set(COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
@@ -46,9 +47,10 @@ export function setAuthCookie(token: string): void {
   });
 }
 
-// Clear auth cookie (for logout)
-export function clearAuthCookie(): void {
-  cookies().set(COOKIE_NAME, '', {
+// Clear auth cookie — Next.js 15: cookies() is async
+export async function clearAuthCookie(): Promise<void> {
+  const cookieStore = await cookies();
+  cookieStore.set(COOKIE_NAME, '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
@@ -64,9 +66,9 @@ export function getAuthFromRequest(request: NextRequest): JWTPayload | null {
   return verifyToken(token);
 }
 
-// Get current user from server-side cookies (for Server Components)
-export function getAuthFromCookies(): JWTPayload | null {
-  const cookieStore = cookies();
+// Get current user from server-side cookies (for Server Components) — async in Next.js 15
+export async function getAuthFromCookies(): Promise<JWTPayload | null> {
+  const cookieStore = await cookies();
   const token = cookieStore.get(COOKIE_NAME)?.value;
   if (!token) return null;
   return verifyToken(token);

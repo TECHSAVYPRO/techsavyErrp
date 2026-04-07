@@ -6,7 +6,7 @@ import { AdminUserPublic } from '@/types';
 
 async function getCurrentUser(): Promise<AdminUserPublic | null> {
   try {
-    const payload = getAuthFromCookies();
+    const payload = await getAuthFromCookies();
     if (!payload) return null;
     const user = await getOne<AdminUserPublic>(
       'SELECT id, username, email, full_name, role, is_active, last_login, created_at FROM admin_users WHERE id = ? AND is_active = TRUE',

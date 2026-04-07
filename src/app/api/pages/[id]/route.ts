@@ -4,16 +4,15 @@ import { getAuthFromRequest } from '@/lib/auth';
 import { successResponse, errorResponse, slugify } from '@/lib/utils';
 import { Page } from '@/types';
 
-interface Params {
-  params: { id: string };
-}
+type RouteParams = { params: Promise<{ id: string }> };
 
-export async function GET(request: NextRequest, { params }: Params) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const auth = getAuthFromRequest(request);
     if (!auth) return errorResponse('Unauthorized', 401);
 
-    const page = await getOne<Page>('SELECT * FROM pages WHERE id = ?', [params.id]);
+    const { id } = await params;
+    const page = await getOne<Page>('SELECT * FROM pages WHERE id = ?', [id]);
     if (!page) return errorResponse('Page not found', 404);
 
     return successResponse(page);
@@ -23,12 +22,13 @@ export async function GET(request: NextRequest, { params }: Params) {
   }
 }
 
-export async function PUT(request: NextRequest, { params }: Params) {
+export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const auth = getAuthFromRequest(request);
     if (!auth) return errorResponse('Unauthorized', 401);
 
-    const page = await getOne<Page>('SELECT * FROM pages WHERE id = ?', [params.id]);
+    const { id } = await params;
+    const page = await getOne<Page>('SELECT * FROM pages WHERE id = ?', [id]);
     if (!page) return errorResponse('Page not found', 404);
 
     const body = await request.json();
@@ -45,10 +45,10 @@ export async function PUT(request: NextRequest, { params }: Params) {
 
     await execute(
       `UPDATE pages SET title = ?, slug = ?, meta_title = ?, meta_description = ?, is_published = ?, sort_order = ? WHERE id = ?`,
-      [title, cleanSlug, meta_title || null, meta_description || null, is_published, sort_order, params.id]
+      [title, cleanSlug, meta_title || null, meta_description || null, is_published, sort_order, id]
     );
 
-    const updated = await getOne<Page>('SELECT * FROM pages WHERE id = ?', [params.id]);
+    const updated = await getOne<Page>('SELECT * FROM pages WHERE id = ?', [id]);
     return successResponse(updated, 'Page updated');
   } catch (error: unknown) {
     console.error('[PUT /api/pages/[id]]', error);
@@ -59,15 +59,16 @@ export async function PUT(request: NextRequest, { params }: Params) {
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: Params) {
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     const auth = getAuthFromRequest(request);
     if (!auth) return errorResponse('Unauthorized', 401);
 
-    const page = await getOne<Page>('SELECT * FROM pages WHERE id = ?', [params.id]);
+    const { id } = await params;
+    const page = await getOne<Page>('SELECT * FROM pages WHERE id = ?', [id]);
     if (!page) return errorResponse('Page not found', 404);
 
-    await execute('DELETE FROM pages WHERE id = ?', [params.id]);
+    await execute('DELETE FROM pages WHERE id = ?', [id]);
     return successResponse(null, 'Page deleted');
   } catch (error) {
     console.error('[DELETE /api/pages/[id]]', error);

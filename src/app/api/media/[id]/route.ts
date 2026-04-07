@@ -6,16 +6,15 @@ import { Media } from '@/types';
 import { unlink } from 'fs/promises';
 import { join } from 'path';
 
-interface Params {
-  params: { id: string };
-}
+type RouteParams = { params: Promise<{ id: string }> };
 
-export async function DELETE(request: NextRequest, { params }: Params) {
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     const auth = getAuthFromRequest(request);
     if (!auth) return errorResponse('Unauthorized', 401);
 
-    const media = await getOne<Media>('SELECT * FROM media WHERE id = ?', [params.id]);
+    const { id } = await params;
+    const media = await getOne<Media>('SELECT * FROM media WHERE id = ?', [id]);
     if (!media) return errorResponse('Media not found', 404);
 
     // Delete file from disk
@@ -29,7 +28,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
     }
 
     // Delete from database
-    await execute('DELETE FROM media WHERE id = ?', [params.id]);
+    await execute('DELETE FROM media WHERE id = ?', [id]);
     return successResponse(null, 'Media deleted');
   } catch (error) {
     console.error('[DELETE /api/media/[id]]', error);
