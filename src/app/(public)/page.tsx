@@ -6,7 +6,6 @@ import TVETTypesSection from '@/components/public/home/TVETTypesSection';
 import WhyChooseUsSection from '@/components/public/home/WhyChooseUsSection';
 import DocumentsSection from '@/components/public/home/DocumentsSection';
 import TestimonialsSection from '@/components/public/home/TestimonialsSection';
-import WhatsAppButton from '@/components/public/home/WhatsAppButton';
 
 export const metadata: Metadata = {
   title: 'Dapin Edu — Empowering Kenya\'s TVET Institutions',
@@ -24,7 +23,6 @@ export default function HomePage() {
       <WhyChooseUsSection />
       <DocumentsSection />
       <TestimonialsSection />
-      <WhatsAppButton />
     </>
   );
 }
