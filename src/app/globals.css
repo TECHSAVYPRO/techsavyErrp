@@ -10,6 +10,13 @@
     --color-sidebar-hover: #16213e;
     --color-sidebar-text: #a0aec0;
     --color-sidebar-text-active: #ffffff;
+
+    /* Dapin Edu brand colors */
+    --brand-orange: #E8792B;
+    --brand-navy: #1B1B3A;
+    --brand-navy-light: #2D2D5E;
+    --brand-gold: #FFB800;
+    --brand-green: #25D366;
   }
 
   * {
