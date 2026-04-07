@@ -1,25 +1,30 @@
 import type { Metadata } from 'next';
+import HeroSection from '@/components/public/home/HeroSection';
+import ClientsSection from '@/components/public/home/ClientsSection';
+import ServicesSection from '@/components/public/home/ServicesSection';
+import TVETTypesSection from '@/components/public/home/TVETTypesSection';
+import WhyChooseUsSection from '@/components/public/home/WhyChooseUsSection';
+import DocumentsSection from '@/components/public/home/DocumentsSection';
+import TestimonialsSection from '@/components/public/home/TestimonialsSection';
+import WhatsAppButton from '@/components/public/home/WhatsAppButton';
 
 export const metadata: Metadata = {
-  title: 'Home',
-  description: 'Welcome to Dapin Edu - Quality Education for Everyone',
+  title: 'Dapin Edu — Empowering Kenya\'s TVET Institutions',
+  description:
+    'Dapin Edu helps entrepreneurs and organizations establish accredited TVET colleges in Kenya with full regulatory compliance and digital infrastructure.',
 };
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
-      {/* Placeholder - will be replaced with Figma design implementation */}
-      <section className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="text-center px-4">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">Dapin Edu</h1>
-          <p className="text-xl text-gray-600 mb-8">
-            Quality Education for Everyone
-          </p>
-          <p className="text-gray-500">
-            Page implementation coming soon — Figma design will be applied here.
-          </p>
-        </div>
-      </section>
-    </div>
+    <>
+      <HeroSection />
+      <ClientsSection />
+      <ServicesSection />
+      <TVETTypesSection />
+      <WhyChooseUsSection />
+      <DocumentsSection />
+      <TestimonialsSection />
+      <WhatsAppButton />
+    </>
   );
 }
