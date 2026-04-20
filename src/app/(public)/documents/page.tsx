@@ -100,14 +100,14 @@ export default function DocumentsPage() {
                   href="#"
                   className="inline-flex items-center rounded-md bg-amber-500 px-5 py-2 text-xs font-bold uppercase tracking-wide text-white transition-colors hover:bg-amber-600"
                 >
-                  Download
+                  DOWNLOAD
                 </a>
               </div>
 
               <div className="pointer-events-none absolute bottom-0 right-0 h-20 w-20 rounded-tl-[2rem] bg-amber-500" />
               <a
                 href="#"
-                aria-label={`Open ${document.title}`}
+                aria-label={`Download ${document.title}`}
                 className="absolute bottom-4 right-4 z-10 text-white transition-transform hover:scale-110"
               >
                 <ExternalArrowIcon />
