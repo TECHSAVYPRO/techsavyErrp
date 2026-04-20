@@ -26,7 +26,7 @@ const faqItems: FaqItem[] = [
   {
     question: 'How can we book a consultation with your team?',
     answer:
-      'You can book a free consultation through our website to discuss your institution\'s goals and receive personalized guidance from our team.',
+      'Use the BOOK FREE CONSULTATION button on this page to request a session and discuss your institution\'s goals with our team.',
   },
 ];
 
