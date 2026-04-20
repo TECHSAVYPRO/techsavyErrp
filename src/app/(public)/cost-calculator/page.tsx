@@ -449,7 +449,7 @@ export default function CostCalculatorPage() {
 
                 <div className="mt-5 rounded-xl bg-white p-5">
                   <label htmlFor="user-licences" className="text-base font-bold text-[#1e2a4a]">
-                    User Licences <span className="text-sm font-semibold text-slate-500">(KSH 1,000/User)</span>
+                    User Licences <span className="text-sm font-semibold text-slate-500">(KES 1,000/User)</span>
                   </label>
                   <div className="mt-3 flex items-center justify-between gap-4 rounded-lg border border-slate-200 px-4 py-3">
                     <span className="font-semibold text-[#1e2a4a]">KES 1,000 each</span>
@@ -546,7 +546,7 @@ export default function CostCalculatorPage() {
 
                 <div className="mt-5 rounded-xl bg-white p-5">
                   <label htmlFor="trainer-recruitment" className="text-base font-bold text-[#1e2a4a]">
-                    Trainer Recruitment <span className="text-sm font-semibold text-slate-500">(KSH 3,000/Trainer)</span>
+                    Trainer Recruitment <span className="text-sm font-semibold text-slate-500">(KES 3,000/Trainer)</span>
                   </label>
                   <div className="mt-3 flex items-center justify-between gap-4 rounded-lg border border-slate-200 px-4 py-3">
                     <span className="font-semibold text-[#1e2a4a]">KES 3,000</span>
@@ -563,7 +563,7 @@ export default function CostCalculatorPage() {
 
                 <div className="mt-5 rounded-xl bg-white p-5">
                   <label htmlFor="licensing-application" className="text-base font-bold text-[#1e2a4a]">
-                    Licensing Application <span className="text-sm font-semibold text-slate-500">(KSH 500/Trainer)</span>
+                    Licensing Application <span className="text-sm font-semibold text-slate-500">(KES 500/Trainer)</span>
                   </label>
                   <div className="mt-3 flex items-center justify-between gap-4 rounded-lg border border-slate-200 px-4 py-3">
                     <span className="font-semibold text-[#1e2a4a]">KES 500</span>
