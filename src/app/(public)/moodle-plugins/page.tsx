@@ -131,10 +131,13 @@ export default function MoodlePluginsPage() {
       <section className="bg-slate-50 py-14 md:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {[1, 2, 3].map((item) => (
-              <div key={item} className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+            {[1, 2, 3].map((screenshotNumber) => (
+              <div
+                key={screenshotNumber}
+                className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200"
+              >
                 <div className="flex h-44 items-center justify-center rounded-xl bg-slate-200 text-sm font-medium text-slate-600">
-                  LMS Screenshot {item}
+                  LMS Screenshot {screenshotNumber}
                 </div>
                 <a
                   href="#"
@@ -264,7 +267,7 @@ export default function MoodlePluginsPage() {
               </li>
               <li className="flex items-center gap-2">
                 <span aria-hidden="true">📞</span>
-                <a href="#" className="hover:text-amber-500">
+                <a href="tel:+254708518641" className="hover:text-amber-500">
                   +254 708 518 641
                 </a>
               </li>

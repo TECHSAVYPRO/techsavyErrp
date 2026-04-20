@@ -5,17 +5,20 @@ import { useState } from 'react';
 type FaqItem = {
   question: string;
   answer?: string;
+  defaultOpen?: boolean;
 };
 
 const faqItems: FaqItem[] = [
   {
     question: 'Do I need expensive servers?',
     answer: 'No, we offer cloud-hosted solutions that remove the need for physical hardware maintenance.',
+    defaultOpen: true,
   },
   {
     question: 'Can students pay fees through the portal?',
     answer:
       'Yes, our Pesapal Payment Plugin integration allows for seamless mobile money and card transactions directly on the site.',
+    defaultOpen: true,
   },
   {
     question: 'Is the system difficult for trainers to use?',
@@ -25,7 +28,9 @@ const faqItems: FaqItem[] = [
 ];
 
 export default function FaqAccordion() {
-  const [openItems, setOpenItems] = useState<number[]>([0, 1]);
+  const [openItems, setOpenItems] = useState<number[]>(
+    faqItems.map((item, index) => (item.defaultOpen ? index : -1)).filter((index) => index >= 0),
+  );
 
   const toggleItem = (index: number) => {
     setOpenItems((current) =>
@@ -60,7 +65,7 @@ export default function FaqAccordion() {
                 aria-labelledby={`faq-button-${index}`}
                 className="mt-3"
               >
-                <p className="text-sm leading-relaxed text-amber-500">{item.answer}</p>
+                <p className="text-sm leading-relaxed text-slate-600">{item.answer}</p>
               </div>
             ) : null}
           </article>
