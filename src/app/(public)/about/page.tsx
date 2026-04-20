@@ -37,12 +37,12 @@ const departments = [
       'We design and implement digital learning systems that support modern TVET delivery, including LMS setup, e-learning content development, and integrated platforms for online and blended training. Our team helps institutions adopt scalable digital tools that improve teaching efficiency, enhance learner engagement, and streamline overall educational management processes.',
   },
   {
-    title: 'Trainer development',
+    title: 'Trainer Development',
     description:
       'We specialize in developing skilled trainers through competency-based methodologies, digital teaching tools, and structured professional growth programs. Our department ensures educators receive practical training that strengthens lesson delivery, assessment quality, and classroom engagement, enabling institutions to maintain high academic standards and improve overall training effectiveness across programs.',
   },
   {
-    title: 'Systems development',
+    title: 'Systems Development',
     description:
       'We build customized management systems tailored to educational institutions, improving efficiency in admissions, records, learning management, and communication. Our software development team collaborates with clients to create innovative digital solutions that simplify operations, enhance data accuracy, support automation, and strengthen institutional performance through reliable, scalable technology platforms.',
   },
