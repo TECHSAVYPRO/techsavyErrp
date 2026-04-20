@@ -114,7 +114,7 @@ export default function AboutPage() {
             <p className="mt-5 text-base leading-relaxed text-slate-600">
               Our vision is to foster a resilient network of flourishing TVET institutions in Kenya,
               celebrated for their outstanding commitment to providing skill-based education and enriching
-              the nation&apos;s socio-economic fabric. We envision a future where DapinEdu is synonymous
+              the nation&apos;s socio-economic fabric. We envision a future where Dapin Edu is synonymous
               with innovation, compassionate guidance, and collective success within the TVET sector.
             </p>
           </div>
