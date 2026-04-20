@@ -13,6 +13,13 @@ const serviceOptions = [
   { value: 'full', label: 'Full Digital Infrastructure Setup' },
 ];
 
+const serviceTypeLabels: Record<string, string> = {
+  consultation: 'TVET Consultation',
+  policy: 'Policy Development',
+  data: 'Data Management',
+  full: 'Full Digital Infrastructure Setup',
+};
+
 const consultationCosts: Record<ConsultationPlan, number> = {
   session: 3000,
   retainer: 5000,
@@ -42,38 +49,51 @@ export default function CostCalculator() {
 
   const summaryItems = useMemo(() => {
     const items: Array<{ label: string; qty: number; amount: number }> = [];
+    const includeConsultation = serviceType === 'consultation' || serviceType === 'full';
+    const includePolicies = serviceType === 'policy' || serviceType === 'full';
+    const includeData = serviceType === 'data' || serviceType === 'full';
 
-    items.push({
-      label:
-        consultationPlan === 'session'
-          ? 'TVET Consultation — Per Session'
-          : 'TVET Consultation — Retainer/Full Time',
-      qty: 1,
-      amount: consultationCosts[consultationPlan],
-    });
+    if (serviceType) {
+      items.push({
+        label: `Selected Type of Service — ${serviceTypeLabels[serviceType] ?? serviceType}`,
+        qty: 1,
+        amount: 0,
+      });
+    }
 
-    if (selectedPolicies.strategic) {
+    if (includeConsultation) {
+      items.push({
+        label:
+          consultationPlan === 'session'
+            ? 'TVET Consultation — Per Session'
+            : 'TVET Consultation — Retainer/Full Time',
+        qty: 1,
+        amount: consultationCosts[consultationPlan],
+      });
+    }
+
+    if (includePolicies && selectedPolicies.strategic) {
       items.push({ label: 'Policy Development — Strategic Plan', qty: 1, amount: policyCosts.strategic });
     }
 
-    if (selectedPolicies.attachment) {
+    if (includePolicies && selectedPolicies.attachment) {
       items.push({ label: 'Policy Development — Attachment Policy', qty: 1, amount: policyCosts.attachment });
     }
 
-    if (selectedPolicies.exam) {
+    if (includePolicies && selectedPolicies.exam) {
       items.push({ label: 'Policy Development — Exam Policy', qty: 1, amount: policyCosts.exam });
     }
 
-    if (selectedPolicies.hr) {
+    if (includePolicies && selectedPolicies.hr) {
       items.push({ label: 'Policy Development — HR Policy', qty: 1, amount: policyCosts.hr });
     }
 
-    if (portalDataEntry) {
+    if (includeData && portalDataEntry) {
       items.push({ label: 'Data Management — TVETA Portal Data Entry', qty: 1, amount: 5000 });
     }
 
     return items;
-  }, [consultationPlan, selectedPolicies, portalDataEntry]);
+  }, [serviceType, consultationPlan, selectedPolicies, portalDataEntry]);
 
   const totalCost = useMemo(
     () => summaryItems.reduce((total, item) => total + item.amount * item.qty, 0),
